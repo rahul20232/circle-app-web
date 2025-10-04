@@ -16,14 +16,21 @@ export default function VerifyEmailPage() {
 
   const verifyEmail = useCallback(async () => {
     try {
-      await axios.post(
+      console.log("Sending verification request with token:", token);
+
+      const response = await axios.post(
         "https://circle-app-production-0a7b.up.railway.app/api/auth/verify-email",
         { token },
         { headers: { "Content-Type": "application/json" } }
       );
+
+      console.log("Verification response:", response.data);
       setStatus("success");
     } catch (err) {
-      console.error(err);
+      console.error("Full error object:", err);
+      console.error("Error response:", err.response);
+      console.error("Error response data:", err.response?.data);
+
       const msg = err.response?.data?.detail;
       if (msg === "Email already verified") {
         setStatus("already-verified");
