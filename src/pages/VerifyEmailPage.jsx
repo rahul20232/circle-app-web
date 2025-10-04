@@ -6,6 +6,14 @@ export default function VerifyEmailPage() {
   const [status, setStatus] = useState("pending");
   const [collapsed, setCollapsed] = useState(false);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const t = urlParams.get("token");
+    console.log("Full URL:", window.location.href);
+    console.log("Token from URL:", t);
+    setToken(t);
+  }, []);
+
   const verifyEmail = useCallback(async () => {
     try {
       await axios.post(
